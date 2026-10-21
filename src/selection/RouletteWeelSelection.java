@@ -1,13 +1,15 @@
 package selection;
 
 import chromosome.Chromosome;
+import scope.FintessComparator;
+
 import  java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RouletteWeelSelection<T> implements Selectionstrategy<T> {
     @Override
-    public List <Chromosome<T>> select(List<Chromosome<T>> population) {
+    public List <Chromosome<T>> select(List<Chromosome<T>> population, FintessComparator<T> comparator) {
         List <Chromosome<T>> selected = new ArrayList<>();
         Float totalFitness = 0.f;
 

@@ -3,9 +3,9 @@ package replacement;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import chromosome.Chromosome;
+import scope.FintessComparator;
 
 public class ElitistReplacement<T> implements ReplacementStrategy<T> {
 
@@ -18,7 +18,9 @@ public class ElitistReplacement<T> implements ReplacementStrategy<T> {
     @Override
     public List<Chromosome<T>> replace(
             List<Chromosome<T>> parents,
-            List<Chromosome<T>> offSprings) {
+            List<Chromosome<T>> offSprings, 
+            FintessComparator<T> comparator      
+        ) {
 
         List<Chromosome<T>> combined = new ArrayList<>(parents);
         combined.addAll(offSprings);
