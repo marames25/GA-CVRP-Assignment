@@ -25,10 +25,15 @@ public class ElitistReplacement<T> implements ReplacementStrategy<T> {
         List<Chromosome<T>> combined = new ArrayList<>(parents);
         combined.addAll(offSprings);
 
-        combined.sort((a, b) -> maximize
-                ? Float.compare(b.getFitness(), a.getFitness())
-                : Float.compare(a.getFitness(), b.getFitness())
-        );
+        combined.sort((a, b) -> {
+            if (comparator.compare(a, b)) {
+                return -1;
+            }
+            if (comparator.compare(b, a)) {
+                return 1;
+            }
+            return 0;
+        });
 
         return new ArrayList<>(
                 combined.subList(0, parents.size())
