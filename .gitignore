@@ -19,7 +19,3 @@ cmake-build-release/
 *.log
 .DS_Store
 Thumbs.db
-
-# Local test files - do not push
-run_tests.ps1
-src/test/MutationTests.java
