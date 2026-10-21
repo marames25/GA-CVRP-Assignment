@@ -2,7 +2,6 @@ package crossover;
 
 import chromosome.Chromosome;
 import scope.FeasibilityChecker;
-
 import java.util.*;
 
 
@@ -17,7 +16,6 @@ public class Order1Crossover implements CrossoverStrategy<Integer> {
             int point1,
             int point2,
             int n) {
-
         int i = (point2 + 1) % n;
         int j = i;
 
@@ -73,7 +71,10 @@ public class Order1Crossover implements CrossoverStrategy<Integer> {
     }
 
     @Override
-    public List<Chromosome<Integer>> crossover(List<Chromosome<Integer>> candidates, FeasibilityChecker<Integer> checker, Float pc) {
+    public List<Chromosome<Integer>> crossover(
+            List<Chromosome<Integer>> candidates,
+            FeasibilityChecker<Integer> checker,
+            Float pc) {
         var offsprings = new ArrayList<Chromosome<Integer>>();
 
         // Process candidates in pairs.
