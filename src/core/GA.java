@@ -99,12 +99,19 @@ public class GA<T> {
         return this.replacer.replace(parents, offSprings, this.fintessComparator);
     }
 
+    private void calculateFitness(List<Chromosome<T>> chromosomes) {
+        for (Chromosome<T> chromosome : chromosomes) {
+            chromosome.setFitness(this.fitness.evaluate(chromosome));
+        }
+    }
+
     public List <Chromosome<T>> run() {
         for (Integer i = 0; i < max_iterations; i++) {
-            // TODO: calculate the fitness for the whole population 
+            calculateFitness(this.population);
             List <Chromosome<T>> parents = this.selection();
             List <Chromosome<T>> offSprings = this.crossover(parents);
             offSprings = mutation(offSprings);
+            calculateFitness(offSprings);
             this.population = replacements(this.population, offSprings);
         }
         return this.population;
