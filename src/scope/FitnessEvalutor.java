@@ -1,4 +1,4 @@
-package fitness;
+package scope;
 
 import chromosome.Chromosome;
 

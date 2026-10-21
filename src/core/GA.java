@@ -1,28 +1,34 @@
 package core;
 
 import chromosome.Chromosome;
-import crossover.Crossover_Strategy;
-import fitness.FitnessEvalutor;
-import mutation.Mutation_Strategy;
-import replacement.Replacement_Strategy;
-import selection.Selection_strategy;
+import crossover.CrossoverStrategy;
+import mutation.MutationStrategy;
+import replacement.ReplacementStrategy;
+import scope.FeasibilityChecker;
+import scope.FitnessEvalutor;
+import selection.Selectionstrategy;
 
 import java.util.List;
 
 public class GA<T> {
     protected List<Chromosome<T>> population;
-    protected Selection_strategy<T> selector;
-    protected Crossover_Strategy<T> crossover;
-    protected Mutation_Strategy<T> mutator;
-    protected Replacement_Strategy<T> replacer;
-    protected int population_size;
-    protected int max_iterations;
+    protected Selectionstrategy<T> selector;
+    protected CrossoverStrategy<T> crossover;
+    protected MutationStrategy<T> mutator;
+    protected ReplacementStrategy<T> replacer;
+    protected Integer population_size;
+    protected Integer chromosomeSize;
+    protected Integer max_iterations;
     protected FitnessEvalutor<T> fitness;
+    protected FeasibilityChecker<T> feasibilityChecker;
+    protected Float pm;
+    protected Float pc;
 
-    public GA(List<Chromosome<T>> population, Selection_strategy<T> selector,
-              Crossover_Strategy<T> crossover, Mutation_Strategy<T> mutator,
-              Replacement_Strategy<T> replacer, int population_size,
-              int max_iterations, FitnessEvalutor<T> fitness) {
+    public GA(List<Chromosome<T>> population, Selectionstrategy<T> selector,
+              CrossoverStrategy<T> crossover, MutationStrategy<T> mutator,
+              ReplacementStrategy<T> replacer, Integer population_size,
+              Integer max_iterations, FitnessEvalutor<T> fitness,
+              FeasibilityChecker<T> feasibilityChecker, Float pm, Float pc, Integer chromosomeSize) {
         this.population = population;
         this.selector = selector;
         this.crossover = crossover;
@@ -31,25 +37,29 @@ public class GA<T> {
         this.population_size = population_size;
         this.max_iterations = max_iterations;
         this.fitness = fitness;
+        this.feasibilityChecker = feasibilityChecker;
+        this.pm = pm;
+        this.pc = pc;
+        this.chromosomeSize = chromosomeSize;
     }
 
     public void set_population(List<Chromosome<T>> population) {
         this.population = population;
     }
 
-    public void set_selector(Selection_strategy<T> selector) {
+    public void set_selector(Selectionstrategy<T> selector) {
         this.selector = selector;
     }
 
-    public void set_crossover(Crossover_Strategy<T> crossover) {
+    public void set_crossover(CrossoverStrategy<T> crossover) {
         this.crossover = crossover;
     }
 
-    public void set_mutator(Mutation_Strategy<T> mutator) {
+    public void set_mutator(MutationStrategy<T> mutator) {
         this.mutator = mutator;
     }
 
-    public void set_replacer(Replacement_Strategy<T> replacer) {
+    public void set_replacer(ReplacementStrategy<T> replacer) {
         this.replacer = replacer;
     }
 
@@ -67,26 +77,27 @@ public class GA<T> {
 
     public List <Chromosome<T>> selection() {
         /*returns the highest fitnesses for crossover and mutation */
-        return this.selector.select(this.population, this.fitness);
+        return this.selector.select(this.population);
     }
     
     public List <Chromosome<T>> crossover(List <Chromosome<T>> parents) {
         /*returns the off-springs after crossover */
-        return this.crossover.crossover(parents, this.fitness);
+        return this.crossover.crossover(parents, this.feasibilityChecker, this.pc);
     }
 
     public List <Chromosome<T>> mutation(List <Chromosome<T>> parents) {
         /*returns the off-springs after mutation */
-        return this.mutator.mutate(parents, this.fitness);
+        return this.mutator.mutate(parents, this.feasibilityChecker, this.pm);
     }
 
     public List <Chromosome<T>> replacements(List <Chromosome<T>> parents,  List<Chromosome<T>> offSprings) {
         /*returns the new generation after replacement*/
-        return this.replacer.replace(parents, offSprings, this.fitness);
+        return this.replacer.replace(parents, offSprings);
     }
 
     public List <Chromosome<T>> run() {
         for (Integer i = 0; i < max_iterations; i++) {
+            // TODO: calculate the fitness for the whole population 
             List <Chromosome<T>> parents = this.selection();
             List <Chromosome<T>> offSprings = this.crossover(parents);
             offSprings = mutation(offSprings);
