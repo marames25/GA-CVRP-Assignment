@@ -13,7 +13,7 @@ public class RouletteWeelSelection<T> implements Selectionstrategy<T> {
         List <Chromosome<T>> selected = new ArrayList<>();
         Float totalFitness = 0.f;
 
-        //calculating the total fitness
+        // calculating the total fitness
         for (var chromosome : population) {
             totalFitness += chromosome.getFitness();
         }

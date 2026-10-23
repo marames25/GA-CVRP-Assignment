@@ -6,16 +6,20 @@ import java.util.List;
 
 public class RouteDecoder {
     private CVRPProblem problem;
+
     public RouteDecoder(CVRPProblem problem) {
         this.problem = problem;
     }
+
     public List<Route> decode(Chromosome<Integer> chromosome) {
         int numberOfVehicles = problem.getNumberOfVehicles();
         List<Route> routes = new ArrayList<>();
+
         for(int i = 0; i < numberOfVehicles;i++)
         {
             routes.add(new Route(new ArrayList<>(), 0, 0));
         }
+
         List<Integer> cities = chromosome.getGenes();
         for(int i = 0; i < cities.size();i++)
         {
@@ -23,6 +27,7 @@ public class RouteDecoder {
             int vehicleIndex = i % numberOfVehicles;
             routes.get(vehicleIndex).getCities().add(city);
         }
+
         int [] demands = problem.getDemands();
         for (Route route : routes) {
             int load = 0;
@@ -43,6 +48,7 @@ public class RouteDecoder {
             distance += distanceMatrix[previousCity][depot];
             route.setDistance(distance);
         }
+
         return routes;
     }
 }
