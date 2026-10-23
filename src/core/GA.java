@@ -106,7 +106,7 @@ public class GA<T> {
     }
 
     public Chromosome<T> getBestSolution() {
-        var bestSolution = population.getFirst();
+        var bestSolution = population.get(0);
 
         for (var chromosome : population) {
             if (fintessComparator.compare(chromosome, bestSolution)) {

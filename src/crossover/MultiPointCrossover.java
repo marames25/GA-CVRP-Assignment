@@ -42,9 +42,9 @@ public class MultiPointCrossover<T> implements CrossoverStrategy<T> {
         // Alternate the parent supplying genes whenever a crossover point is reached.
         int j = 0;
         for (int i = 0; i < n; ++i) {
-            if (!crossoverPoints.isEmpty() && i == crossoverPoints.getLast()) {
+            if (!crossoverPoints.isEmpty() && i == crossoverPoints.get(crossoverPoints.size() - 1)) {
                 ++j;
-                crossoverPoints.removeLast();
+                crossoverPoints.remove(crossoverPoints.size() - 1);
             }
 
             // Copy genes from the selected parent according to the current segment.
@@ -102,7 +102,7 @@ public class MultiPointCrossover<T> implements CrossoverStrategy<T> {
 
         // Preserve the last candidate if the population size is odd.
         if (candidates.size() % 2 != 0) {
-            offsprings.add(candidates.getLast());
+            offsprings.add(candidates.get(candidates.size() - 1));
         }
 
         return offsprings;
