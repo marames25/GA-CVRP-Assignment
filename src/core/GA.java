@@ -105,6 +105,18 @@ public class GA<T> {
         }
     }
 
+    public Chromosome<T> getBestSolution() {
+        var bestSolution = population.getFirst();
+
+        for (var chromosome : population) {
+            if (fintessComparator.compare(chromosome, bestSolution)) {
+                bestSolution = chromosome;
+            }
+        }
+
+        return bestSolution;
+    }
+
     public List <Chromosome<T>> run() {
         for (Integer i = 0; i < max_iterations; i++) {
             calculateFitness(this.population);

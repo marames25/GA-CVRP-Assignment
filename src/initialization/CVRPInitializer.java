@@ -8,7 +8,7 @@ import java.util.List;
 
 
 public class CVRPInitializer {
-    private static final int POPULATION_SIZE = 100;
+    private static final int POPULATION_SIZE = 300;
     private final CVRPFeasibilityChecker feasibilityChecker;
 
     public CVRPInitializer(CVRPFeasibilityChecker feasibilityChecker) {
