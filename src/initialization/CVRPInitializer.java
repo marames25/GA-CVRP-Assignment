@@ -8,11 +8,12 @@ import java.util.List;
 
 
 public class CVRPInitializer {
-    private static final int POPULATION_SIZE = 300;
+    private int popSize;
     private final CVRPFeasibilityChecker feasibilityChecker;
 
-    public CVRPInitializer(CVRPFeasibilityChecker feasibilityChecker) {
+    public CVRPInitializer(CVRPFeasibilityChecker feasibilityChecker, int popSize) {
         this.feasibilityChecker = feasibilityChecker;
+        this.popSize = popSize;
     }
 
     // Generates a random permutation of location IDs from 1 to n.
@@ -35,7 +36,7 @@ public class CVRPInitializer {
         var population = new ArrayList<Chromosome<Integer>>();
 
         // Continue generating chromosomes until the population reaches the target size.
-        while (population.size() < POPULATION_SIZE) {
+        while (population.size() < popSize) {
             var chromosome = new Chromosome<Integer>(generatePermutation(numberOfLocations), 0, 0f, numberOfLocations);
 
             // Add only chromosomes that satisfy the CVRP feasibility constraints.

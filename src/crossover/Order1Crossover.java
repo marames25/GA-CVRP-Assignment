@@ -109,7 +109,7 @@ public class Order1Crossover implements CrossoverStrategy<Integer> {
 
         // Preserve the last candidate if the population size is odd.
         if (candidates.size() % 2 != 0) {
-            offsprings.add(candidates.getLast());
+            offsprings.add(candidates.get(candidates.size() - 1));
         }
 
         return offsprings;
