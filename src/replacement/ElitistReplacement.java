@@ -9,12 +9,6 @@ import scope.FintessComparator;
 
 public class ElitistReplacement<T> implements ReplacementStrategy<T> {
 
-    private final boolean maximize;
-
-    public ElitistReplacement(boolean maximize) {
-        this.maximize = maximize;
-    }
-
     @Override
     public List<Chromosome<T>> replace(
             List<Chromosome<T>> parents,

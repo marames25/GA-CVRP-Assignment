@@ -52,7 +52,7 @@ public class Main {
                 mutation,
                 replacement,
                 population.size(),
-                100,
+                300,
                 fitnessEvaluator,
                 feasibilityChecker,
                 0.4f,
@@ -60,6 +60,15 @@ public class Main {
                 fintessComparator,
                 7
                 );
-        ga.run();
+        for (var chromosome : ga.run()) {
+            System.out.print("Solution: ");
+            for (var gene : chromosome.getGenes()) {
+                System.out.print(gene + " ");
+            }
+            System.out.println();
+            System.out.print("Fitness: ");
+            var fitness = fitnessEvaluator.evaluate(chromosome);
+            System.out.println(fitness);
+        }
     }
 }
