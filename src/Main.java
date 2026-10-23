@@ -1,11 +1,17 @@
+import core.GA;
+import crossover.Order1Crossover;
+import fitness.CVRPFitnessEvaluator;
 import initialization.CVRPInitializer;
+import mutation.SwapMutation;
 import problem.CVRPProblem;
+import replacement.GenerationalReplacement;
 import scope.CVRPFeasibilityChecker;
+import scope.CVRPFintessComparator;
+import selection.TournamentSelection;
 
 
 public class Main {
     public static void main(String[] args) {
-
         int[][] distanceMatrix = {
                 {0, 2, 9, 10, 7, 3, 8, 6},
                 {2, 0, 4, 8, 5, 6, 7, 9},
@@ -18,9 +24,7 @@ public class Main {
         };
 
         int numberOfVehicles = 4;
-
         int[] vehiclesCapacity = {10, 10, 10, 10};
-
         int[] demands = {0, 4, 3, 5, 2, 6, 4, 3};
 
         var problem = new CVRPProblem(distanceMatrix, numberOfVehicles, vehiclesCapacity, demands);
@@ -30,14 +34,32 @@ public class Main {
         var initializer = new CVRPInitializer(feasibilityChecker);
         var population = initializer.initializePopulation(7);
 
-        for (var chromosome : population) {
-            var chromosomeGenes = chromosome.getGenes();
+        var fitnessEvaluator = new CVRPFitnessEvaluator(problem);
+        var fintessComparator = new CVRPFintessComparator(fitnessEvaluator);
 
-            for (var gene : chromosomeGenes) {
-                System.out.printf("%d ", gene);
-            }
+        var selection = new TournamentSelection<Integer>();
 
-            System.out.println();
-        }
+        var crossover = new Order1Crossover();
+
+        var mutation = new SwapMutation();
+
+        var replacement = new GenerationalReplacement<Integer>();
+
+        var ga = new GA<Integer>(
+                population,
+                selection,
+                crossover,
+                mutation,
+                replacement,
+                population.size(),
+                100,
+                fitnessEvaluator,
+                feasibilityChecker,
+                0.4f,
+                0.8f,
+                fintessComparator,
+                7
+                );
+        ga.run();
     }
 }
