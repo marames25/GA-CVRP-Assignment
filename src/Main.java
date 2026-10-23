@@ -1,10 +1,10 @@
 import core.GA;
 import crossover.Order1Crossover;
+import decoder.RouteDecoder;
 import fitness.CVRPFitnessEvaluator;
 import initialization.CVRPInitializer;
 import mutation.SwapMutation;
 import problem.CVRPProblem;
-import replacement.ElitistReplacement;
 import replacement.GenerationalReplacement;
 import scope.CVRPFeasibilityChecker;
 import scope.CVRPFintessComparator;
@@ -74,6 +74,42 @@ public class Main {
                 fintessComparator,
                 19
                 );
+
+        ga.run();
+
+        var optimalSolution = ga.getBestSolution();
+        var decoder = new RouteDecoder(problem);
+        var result = decoder.decode(optimalSolution);
+        var loads = problem.getDemands();
+        int totalDistance = 0, totalLoad = 0;
+
+        for (int i = 0; i < result.size(); ++i) {
+            System.out.printf("Route for vehicle %d:\n\t", i);
+
+            int cumulativeLoad = 0;
+            var route = result.get(i);
+            var cities = route.getCities();
+
+            System.out.print("0 Load(0) -> ");
+            for (var city : cities) {
+                System.out.printf("%d Load(%d) -> ", city, cumulativeLoad);
+                cumulativeLoad += loads[city];
+            }
+            System.out.printf("0 Load(%d)\n", cumulativeLoad);
+
+            int routeDistance = route.getDistance();
+            int routeLoad = route.getLoad();
+            totalDistance += routeDistance;
+            totalLoad += routeLoad;
+
+            System.out.printf("Distance of the route: %dm\n", routeDistance);
+            System.out.printf("Load of the route: %d\n", routeLoad);
+
+            System.out.println();
+        }
+
+        System.out.printf("Total Distance of all routes: %dm\n", totalDistance);
+        System.out.printf("Total Load of all routes: %d\n", totalLoad);
 
 //        var bestSolution = population.getFirst();
 //        for (var chromosome : population) {
