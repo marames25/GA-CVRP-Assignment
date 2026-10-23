@@ -49,7 +49,7 @@ public class Main {
         var population = initializer.initializePopulation(19);
 
         var fitnessEvaluator = new CVRPFitnessEvaluator(problem);
-        var fintessComparator = new CVRPFintessComparator(fitnessEvaluator);
+        var fintessComparator = new CVRPFintessComparator();
 
         var selection = new TournamentSelection<Integer>();
 
